@@ -43,7 +43,7 @@ SQL 是关系型数据库系统（Relation Database System）的标准语言。�
 
 下面这张图片简要说明了 SQL 的架构：
 
-![SQL Architecture]()
+![SQL Architecture](images/sql-architecture.jpg)
 
 ## SQL 命令 ##
 
