@@ -165,7 +165,4 @@
       <td>UNIQUE</td>
       <td>UNIQUE 运算符检查指定表的所有行，以确定没有重复。</td>
    </tr>
-   <tr>
-      <td></td>
-   </tr>
 </table>
