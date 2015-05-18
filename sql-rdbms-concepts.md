@@ -4,7 +4,7 @@
 
 ## 什么是关系型数据库管理系统？ ##
 
-RDBMS 是关系型数据库管理系统（**R**elational **D**ata**B**ase **Management **S**ystem)的缩写，它是 SQL 以及所有现代数据库系统，例如 MS SQL Server、IBM DB2、Oracle、MySQL 和 MS Access等的基础。
+RDBMS 是关系型数据库管理系统（**R**elational **D**ata**B**ase **M**anagement **S**ystem)的缩写，它是 SQL 以及所有现代数据库系统，例如 MS SQL Server、IBM DB2、Oracle、MySQL 和 MS Access等的基础。
 
 关系型数据库管理系统（RDBMS）是一种基于 E.F. 科德提出的关系模型的数据库管理系统。
 
