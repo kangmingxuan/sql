@@ -28,3 +28,178 @@
 
 ## COMMIT 命令： ##
 
+COMMIT 命令用于保存事务对数据库所做的更改。
+
+COMMIT 命令会将自上次 COMMIT 命令或者 ROLLBACK 命令执行以来所有的事务都保存到数据库中。
+
+COMMIT 命令的语法如下所示：
+
+	COMMIT;
+
+## 示例： ##
+
+考虑 CUSTOMERS 表，表中的记录如下所示：
+
+	+----+----------+-----+-----------+----------+
+	| ID | NAME     | AGE | ADDRESS   | SALARY   |
+	+----+----------+-----+-----------+----------+
+	|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |
+	|  2 | Khilan   |  25 | Delhi     |  1500.00 |
+	|  3 | kaushik  |  23 | Kota      |  2000.00 |
+	|  4 | Chaitali |  25 | Mumbai    |  6500.00 |
+	|  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+	|  6 | Komal    |  22 | MP        |  4500.00 |
+	|  7 | Muffy    |  24 | Indore    | 10000.00 |
+	+----+----------+-----+-----------+----------+
+
+下面的示例将会删除表中 age=25 的记录，然后将更改提交（COMMIT）到数据库中。
+
+	SQL> DELETE FROM CUSTOMERS
+	     WHERE AGE = 25;
+	SQL> COMMIT;
+
+上述语句将会从表中删除两行记录，再执行 SELECT 语句将会得到如下结果：
+
+	+----+----------+-----+-----------+----------+
+	| ID | NAME     | AGE | ADDRESS   | SALARY   |
+	+----+----------+-----+-----------+----------+
+	|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |
+	|  3 | kaushik  |  23 | Kota      |  2000.00 |
+	|  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+	|  6 | Komal    |  22 | MP        |  4500.00 |
+	|  7 | Muffy    |  24 | Indore    | 10000.00 |
+	+----+----------+-----+-----------+----------+
+
+## ROLLBACK 命令： ##
+
+ROLLBACK 命令用于撤销尚未保存到数据库中的事务。
+
+ROLLBACK 命令只能撤销自上次 COMMIT 命令或者 ROLLBACK 命令执行以来的事务。
+
+ROLLBACK 命令的语法如下所示：
+
+	ROLLBACK;
+
+## 示例： ##
+
+考虑 CUSTOMERS 表，表中的记录如下所示：
+
+	+----+----------+-----+-----------+----------+
+	| ID | NAME     | AGE | ADDRESS   | SALARY   |
+	+----+----------+-----+-----------+----------+
+	|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |
+	|  2 | Khilan   |  25 | Delhi     |  1500.00 |
+	|  3 | kaushik  |  23 | Kota      |  2000.00 |
+	|  4 | Chaitali |  25 | Mumbai    |  6500.00 |
+	|  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+	|  6 | Komal    |  22 | MP        |  4500.00 |
+	|  7 | Muffy    |  24 | Indore    | 10000.00 |
+	+----+----------+-----+-----------+----------+
+
+下面的示例将会从表中删除所有 age=25 的记录，然后回滚（ROLLBACK）对数据库所做的更改。
+
+	SQL> DELETE FROM CUSTOMERS
+	     WHERE AGE = 25;
+	SQL> ROLLBACK;
+
+结果是删除操作并不会对数据库产生影响。现在，执行 SELECT 语句将会得到如下结果：
+
+	+----+----------+-----+-----------+----------+
+	| ID | NAME     | AGE | ADDRESS   | SALARY   |
+	+----+----------+-----+-----------+----------+
+	|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |
+	|  2 | Khilan   |  25 | Delhi     |  1500.00 |
+	|  3 | kaushik  |  23 | Kota      |  2000.00 |
+	|  4 | Chaitali |  25 | Mumbai    |  6500.00 |
+	|  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+	|  6 | Komal    |  22 | MP        |  4500.00 |
+	|  7 | Muffy    |  24 | Indore    | 10000.00 |
+	+----+----------+-----+-----------+----------+
+
+## SAVEPOINT 命令： ##
+
+SAVEPOINT 是事务中的一个状态点，使得我们可以将事务回滚至特定的点，而不是将整个事务都撤销。
+
+SAVEPOINT 命令的记录如下所示：
+
+	SAVEPOINT SAVEPOINT_NAME;
+
+该命令只能在事务语句之间创建保存点（SAVEPOINT）。ROLLBACK 命令可以用于撤销一系列的事务。
+
+回滚至某一保存点的语法如下所示：
+
+	ROLLBACK TO SAVEPOINT_NAME;
+
+下面的示例中，你计划从 CUSTOMERS 表中删除三条不同的记录，并在每次删除之前创建一个保存点（SAVEPOINT），从而使得你可以在任何任何时候回滚到任意的保存点，以恢复数据至其原始状态。
+
+## 示例： ##
+
+考虑 CUSTOMERS 表，表中的记录如下所示：
+
+	+----+----------+-----+-----------+----------+
+	| ID | NAME     | AGE | ADDRESS   | SALARY   |
+	+----+----------+-----+-----------+----------+
+	|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |
+	|  2 | Khilan   |  25 | Delhi     |  1500.00 |
+	|  3 | kaushik  |  23 | Kota      |  2000.00 |
+	|  4 | Chaitali |  25 | Mumbai    |  6500.00 |
+	|  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+	|  6 | Komal    |  22 | MP        |  4500.00 |
+	|  7 | Muffy    |  24 | Indore    | 10000.00 |
+	+----+----------+-----+-----------+----------+
+
+操作序列如下所示：
+
+	SQL> SAVEPOINT SP1;
+	Savepoint created.
+	SQL> DELETE FROM CUSTOMERS WHERE ID=1;
+	1 row deleted.
+	SQL> SAVEPOINT SP2;
+	Savepoint created.
+	SQL> DELETE FROM CUSTOMERS WHERE ID=2;
+	1 row deleted.
+	SQL> SAVEPOINT SP3;
+	Savepoint created.
+	SQL> DELETE FROM CUSTOMERS WHERE ID=3;
+	1 row deleted.
+
+现在，三次删除操作已经生效了，如果此时你改变主意决定回滚至名字为 SP2 的保存点，由于 SP2 于第一次删除操作之后创建，所以后两次删除操作将会被撤销。
+
+	SQL> ROLLBACK TO SP2;
+	Rollback complete.
+
+注意，由于你将数据库回滚至 SP2，所以只有第一次删除真正起效了：
+
+	SQL> SELECT * FROM CUSTOMERS;
+	+----+----------+-----+-----------+----------+
+	| ID | NAME     | AGE | ADDRESS   | SALARY   |
+	+----+----------+-----+-----------+----------+
+	|  2 | Khilan   |  25 | Delhi     |  1500.00 |
+	|  3 | kaushik  |  23 | Kota      |  2000.00 |
+	|  4 | Chaitali |  25 | Mumbai    |  6500.00 |
+	|  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+	|  6 | Komal    |  22 | MP        |  4500.00 |
+	|  7 | Muffy    |  24 | Indore    | 10000.00 |
+	+----+----------+-----+-----------+----------+
+	6 rows selected.
+
+## RELEASE SAVEPOINT 命令： ##
+
+RELEASE SAVEPOINT 命令用于删除先前创建的保存点。
+
+RELEASE SAVEPOINT 的语法如下所示：
+
+	RELEASE SAVEPOINT SAVEPOINT_NAME;
+
+保存点一旦被释放，你就不能够再用 ROLLBACK 命令来撤销该保存点之后的事务了。
+
+## SET TRANSACTION 命令： ##
+
+SET TRANSACTION 命令可以用来初始化数据库事务，指定随后的事务的各种特征。
+
+例如，你可以将某个事务指定为只读或者读写。
+
+SET TRANSACTION 命令的语法如下所示：
+
+	SET TRANSACTION [ READ WRITE | READ ONLY ];
+
